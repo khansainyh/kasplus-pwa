@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
+    @PwaHead
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -63,19 +64,19 @@
 
                     <div class="flex items-center justify-between mt-6"> {{-- Disesuaikan untuk layout mobile --}}
                         @if (Route::has('password.request'))
-                            <a class="underline text-sm text-gray-600 hover:text-gray-900" href="{{ route('password.request') }}">
+                            <a class="underline text-sm text-gray" href="{{ route('password.request') }}">
                                 {{ __('Forgot your password?') }}
                             </a>
                         @endif
 
-                        <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg">
+                        <button type="submit" class="bg-blue hover:bg-blue text-white font-bold py-2 px-4 rounded-lg">
                             {{ __('Log in') }}
                         </button>
                     </div>
 
                     {{-- Tombol Register --}}
                     <div class="flex items-center justify-center mt-4"> {{-- Rata tengah --}}
-                        <a class="underline text-sm text-blue-600 hover:text-blue-800" href="{{ route('register') }}">
+                        <a class="underline text-sm text-gray hover:text-blue" href="{{ route('register') }}">
                             {{ __('Don\'t have an account? Register here!') }}
                         </a>
                     </div>
@@ -88,5 +89,6 @@
         {{-- Jika Anda tetap ingin navbar bawah ini muncul di halaman login, salin kodenya dari app.blade.php di sini --}}
 
     </div>
+    @RegisterServiceWorkerScript
 </body>
 </html>
