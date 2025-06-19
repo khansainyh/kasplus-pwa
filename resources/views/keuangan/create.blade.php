@@ -42,7 +42,7 @@
 
                 <div class="flex justify-end mt-6">
                     <a href="{{ route('keuangan.index') }}" class="bg-gray-200 text-gray-700 px-4 py-2 rounded-md mr-2 hover:bg-gray-300">Batal</a>
-                    <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700">
+                    <button type="submit" class="bg-blue text-white px-4 py-2 rounded-md hover:bg-blue-700">
                         Simpan {{ ucfirst($tipe) }}
                     </button>
                 </div>

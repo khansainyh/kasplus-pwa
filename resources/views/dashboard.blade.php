@@ -2,7 +2,7 @@
     <x-slot name="header">
         <div class="flex items-center space-x-2">
             <img src="{{ asset('images/kasplus_logo.png') }}" alt="KasPlus Logo" class="h-8 w-8">
-            <h2 class="font-bold text-xl text-navy_blue">
+            <h2 class="font-bold text-xl text-[#131951]"> {{-- Menggunakan kode HEX langsung --}}
                 KasPlus
             </h2>
         </div>
@@ -10,34 +10,32 @@
 
     <div class="py-4">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-        {{-- Pesan Sambutan untuk Dashboard --}}
-        <p class="text-2xl font-semibold text-dark_gray mb-3 tracking-tight">Welcome back, {{ Auth::user()->name }}!</p>
-        {{-- Filter Utama - Diubah menjadi chips --}}
+        <p class="text-2xl font-semibold text-[#0D0D0D] mb-3 tracking-tight">Welcome back, {{ Auth::user()->name }}!</p> {{-- Menggunakan kode HEX langsung --}}
         <div x-data="{ selectedPeriod: 'today' }" class="flex space-x-1 overflow-x-auto pb-2 hides-scrollbar mb-2">
             <button
                 @click="selectedPeriod = 'today'; $dispatch('period-changed', 'today')"
-                :class="selectedPeriod === 'today' ? 'bg-blue/15 text-navy_blue border-0' : 'bg-white text-gray border-gray hover:border-navy_blue hover:text-navy_blue'"
+                :class="selectedPeriod === 'today' ? 'bg-[#2D5AF7]/15 text-[#131951] border-0' : 'bg-white text-[#7B7B7B] border-[#7B7B7B] hover:border-[#131951] hover:text-[#131951]'"
                 class="flex-none px-4 rounded-full border-px transition-colors duration-200 h-8 text-sm flex items-center justify-center font-medium"
             >
                 Hari Ini
             </button>
             <button
                 @click="selectedPeriod = 'week'; $dispatch('period-changed', 'week')"
-                :class="selectedPeriod === 'week' ? 'bg-blue/15 text-navy_blue border-0' : 'bg-white text-gray border-gray hover:border-navy_blue hover:text-navy_blue'"
+                :class="selectedPeriod === 'week' ? 'bg-[#2D5AF7]/15 text-[#131951] border-0' : 'bg-white text-[#7B7B7B] border-[#7B7B7B] hover:border-[#131951] hover:text-[#131951]'"
                 class="flex-none px-4 rounded-full border-px transition-colors duration-200 h-8 text-sm flex items-center justify-center font-medium"
             >
                 Minggu Ini
             </button>
             <button
                 @click="selectedPeriod = 'month'; $dispatch('period-changed', 'month')"
-                :class="selectedPeriod === 'month' ? 'bg-blue/15 text-navy_blue border-0' : 'bg-white text-gray border-gray hover:border-navy_blue hover:text-navy_blue'"
+                :class="selectedPeriod === 'month' ? 'bg-[#2D5AF7]/15 text-[#131951] border-0' : 'bg-white text-[#7B7B7B] border-[#7B7B7B] hover:border-[#131951] hover:text-[#131951]'"
                 class="flex-none px-4 rounded-full border-px transition-colors duration-200 h-8 text-sm flex items-center justify-center font-medium"
             >
                 Bulan Ini
             </button>
             <button
                 @click="selectedPeriod = 'year'; $dispatch('period-changed', 'year')"
-                :class="selectedPeriod === 'year' ? 'bg-blue/15 text-navy_blue border-0' : 'bg-white text-gray border-gray hover:border-navy_blue hover:text-navy_blue'"
+                :class="selectedPeriod === 'year' ? 'bg-[#2D5AF7]/15 text-[#131951] border-0' : 'bg-white text-[#7B7B7B] border-[#7B7B7B] hover:border-[#131951] hover:text-[#131951]'"
                 class="flex-none px-4 rounded-full border-px transition-colors duration-200 h-8 text-sm flex items-center justify-center font-medium"
             >
                 Tahun Ini
@@ -78,25 +76,25 @@
             }" class="mb-2">
                 <div x-ref="kpiScroll" class="flex overflow-x-auto pb-4 space-x-4 hides-scrollbar snap-x snap-mandatory">
                     {{-- Saldo Kas Total --}}
-                    <div class="flex-none w-72 rounded-lg shadow-lg p-6 bg-navy_blue text-white snap-center">
+                    <div class="flex-none w-72 rounded-lg shadow-md p-6 bg-[#131951] text-white snap-center"> {{-- UBAH INI: shadow-lg menjadi shadow-md --}}
                         <p class="text-sm font-medium text-gray-300 truncate">Saldo Kas Total</p>
                         <p class="mt-1 text-3xl font-semibold" id="kpi-saldo-kas">Rp {{ number_format($kpi['saldo_kas'], 0, ',', '.') }}</p>
                     </div>
 
                     {{-- Pendapatan --}}
-                    <div class="flex-none w-72 rounded-lg shadow-lg p-6 bg-blue text-white snap-center">
+                    <div class="flex-none w-72 rounded-lg shadow-md p-6 bg-[#2D5AF7] text-white snap-center"> {{-- UBAH INI: shadow-lg menjadi shadow-md --}}
                         <p class="text-sm font-medium text-white truncate">Pendapatan</p>
                         <p class="mt-1 text-3xl font-semibold" id="kpi-pendapatan">Rp {{ number_format($kpi['pendapatan'], 0, ',', '.') }}</p>
                     </div>
 
                     {{-- Pengeluaran --}}
-                    <div class="flex-none w-72 rounded-lg shadow-lg p-6 bg-orange text-white snap-center">
+                    <div class="flex-none w-72 rounded-lg shadow-md p-6 bg-[#F65C02] text-white snap-center"> {{-- UBAH INI: shadow-lg menjadi shadow-md --}}
                         <p class="text-sm font-medium text-white truncate">Pengeluaran</p>
                         <p class="mt-1 text-3xl font-semibold" id="kpi-pengeluaran">Rp {{ number_format($kpi['pengeluaran'], 0, ',', '.') }}</p>
                     </div>
 
                     {{-- Jumlah Transaksi --}}
-                    <div class="flex-none w-72 rounded-lg shadow-lg p-6 bg-white border border-navy_blue snap-center">
+                    <div class="flex-none w-72 rounded-lg shadow-md p-6 bg-white border border-[#131951] snap-center"> {{-- UBAH INI: shadow-lg menjadi shadow-md --}}
                         <p class="text-sm font-medium text-gray-500 truncate">Jumlah Transaksi</p>
                         <p class="mt-1 text-3xl font-semibold text-gray-900" id="kpi-jumlah-transaksi">{{ $kpi['jml_transaksi'] }}</p>
                     </div>
@@ -107,8 +105,8 @@
                     <template x-for="(card, index) in cards" :key="index">
                         <div
                             class="w-2 h-2 rounded-full transition-all duration-300"
-                            :class="{ 'bg-navy_blue': activeCard === index, 'bg-light_gray': activeCard !== index }"
-                        ></div>
+                            :class="{ 'bg-[#131951]': activeCard === index, 'bg-[#D3D3D3]': activeCard !== index }"
+                        ></div> {{-- UBAH INI: class bg-navy_blue & bg-light_gray --}}
                     </template>
                 </div>
             </div>
@@ -117,15 +115,15 @@
             <div class="mt-2 grid grid-cols-1 lg:grid-cols-3 gap-4">
                 <div class="lg:col-span-2 space-y-4">
                     {{-- Container chart untuk Tren Pendapatan --}}
-                    <div class="bg-white p-4 rounded-xl shadow-md h-80 lg:h-96 flex flex-col">
-                        <h3 class="text-2xl font-bold text-navy_blue mb-3 tracking-tight">Tren Pendapatan</h3> {{-- <--- UBAH DI SINI --}}
+                    <div class="bg-white p-4 rounded-xl shadow-sm h-80 lg:h-96 flex flex-col"> {{-- UBAH INI: shadow-md menjadi shadow-sm --}}
+                        <h3 class="text-2xl font-bold text-[#131951] mb-3 tracking-tight">Tren Pendapatan</h3>
                         <div class="flex-grow">
                             <canvas id="trendPendapatanChart"></canvas>
                         </div>
                     </div>
                     {{-- Container chart untuk Pemasukan vs Pengeluaran --}}
-                    <div class="bg-white p-4 rounded-xl shadow-md h-80 lg:h-96 flex flex-col">
-                        <h3 class="text-2xl font-bold text-navy_blue mb-3 tracking-tight">Pemasukan vs Pengeluaran</h3> {{-- <--- UBAH DI SINI --}}
+                    <div class="bg-white p-4 rounded-xl shadow-sm h-80 lg:h-96 flex flex-col"> {{-- UBAH INI: shadow-md menjadi shadow-sm --}}
+                        <h3 class="text-2xl font-bold text-[#131951] mb-3 tracking-tight">Pemasukan vs Pengeluaran</h3>
                         <div class="flex-grow">
                             <canvas id="pemasukanPengeluaranChart"></canvas>
                         </div>
@@ -133,14 +131,15 @@
                 </div>
                 <div class="space-y-4">
                     {{-- Container chart untuk Top 3 Produk Terlaris --}}
-                    <div class="bg-white p-4 rounded-xl shadow-md h-80 lg:h-96 flex flex-col">
-                        <h3 class="text-2xl font-bold text-navy_blue mb-3 tracking-tight">Top 3 Produk Terlaris</h3> {{-- <--- UBAH DI SINI --}}
+                    <div class="bg-white p-4 rounded-xl shadow-sm h-80 lg:h-96 flex flex-col"> {{-- UBAH INI: shadow-md menjadi shadow-sm --}}
+                        <h3 class="text-2xl font-bold text-[#131951] mb-1 tracking-tight">Top 3 Produk Terlaris</h3> {{-- UBAH INI: mb-3 menjadi mb-1 --}}
                         <div class="flex-grow">
                             <canvas id="topProdukChart"></canvas>
                         </div>
                     </div>
-                    <div class="bg-white p-4 rounded-xl shadow-md h-64 lg:h-auto">
-                        <h3 class="text-2xl font-bold text-navy_blue mb-3 tracking-tight">Stok Segera Habis</h3> {{-- <--- UBAH DI SINI --}}
+                    {{-- Container chart untuk Stok Segera Habis --}}
+                    <div class="bg-white p-4 rounded-xl shadow-sm lg:h-auto"> {{-- UBAH INI: shadow-md menjadi shadow-sm, h-64 dihapus --}}
+                        <h3 class="text-2xl font-bold text-[#131951] mb-3 tracking-tight">Stok Segera Habis</h3>
                         <div id="stokMenipisContainer"></div>
                     </div>
                 </div>
@@ -395,7 +394,7 @@ document.addEventListener('DOMContentLoaded', function () {
             data.stok_menipis.forEach(item => {
                 const listItem = document.createElement('li');
                 listItem.className = 'flex justify-between items-center p-2 bg-gray-50 rounded-md';
-                listItem.innerHTML = <span>${item.produk.nama} (${item.nama})</span> <span class="font-bold text-red-600">Sisa ${item.stok}</span>;
+                listItem.innerHTML = `<span><span class="math-inline">\{item\.produk\.nama\} \(</span>{item.nama})</span> <span class="font-bold text-red-600">Sisa ${item.stok}</span>`;
                 list.appendChild(listItem);
             });
             stokContainer.appendChild(list);
@@ -408,7 +407,7 @@ document.addEventListener('DOMContentLoaded', function () {
     async function fetchAndUpdateDashboard(period) {
         try {
             document.body.style.cursor = 'wait';
-            const response = await fetch({{ route('dashboard.data') }}?period=${period});
+            const response = await fetch(`{{ route('dashboard.data') }}?period=${period}`);
             if (!response.ok) throw new Error('Network response was not ok');
             const data = await response.json();
             renderDashboard(data);

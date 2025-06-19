@@ -25,7 +25,7 @@
                             <label for="tanggal_selesai" class="block text-sm font-medium text-gray-700">Tanggal Selesai</label>
                             <input type="date" name="tanggal_selesai" id="tanggal_selesai" value="{{ $tglSelesai }}" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm text-sm">
                         </div>
-                        <button type="submit" class="px-4 py-2 bg-blue-600 text-white text-sm font-semibold rounded-lg shadow hover:bg-blue-700">Terapkan</button>
+                        <button type="submit" class="px-4 py-2 bg-blue text-white text-sm font-semibold rounded-lg shadow hover:bg-blue">Terapkan</button>
                     </form>
 
                     <form action="{{ route('laporan.generate') }}" method="POST" target="_blank">

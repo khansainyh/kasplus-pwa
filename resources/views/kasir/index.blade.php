@@ -1,44 +1,53 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-bold text-xl text-gray-800">
+        {{-- UBAH INI: Header untuk Halaman Kasir agar lebih menonjol dan rapi --}}
+        <h2 class="font-bold text-2xl text-[#131951] text-center tracking-wide">
             Kasir
         </h2>
     </x-slot>
 
     {{-- Main container for the Kasir module --}}
-    <div class="w-full pb-10" x-data="kasirApp()">
+    <div class="w-full pb-10 px-4" x-data="kasirApp()"> {{-- Tambahkan px-4 untuk padding horizontal --}}
         {{-- Pesan Sukses atau Error --}}
         @if(session('success'))
-            <div class="bg-green-100 text-green-700 p-2 rounded mb-4">{{ session('success') }}</div>
+            {{-- UBAH INI: Styling pesan sukses --}}
+            <div class="bg-green-100 text-green-700 p-3 rounded-lg shadow-sm mb-4 text-sm font-medium tracking-wide">
+                {{ session('success') }}
+            </div>
         @endif
         @if(session('error'))
-            <div class="bg-red-100 text-red-700 p-2 rounded mb-4">{{ session('error') }}</div>
+            {{-- UBAH INI: Styling pesan error --}}
+            <div class="bg-red-100 text-red-700 p-3 rounded-lg shadow-sm mb-4 text-sm font-medium tracking-wide">
+                {{ session('error') }}
+            </div>
         @endif
 
         {{-- Product List Area --}}
-        <div class="mb-8">
-            <h3 class="text-lg font-semibold mb-3">Daftar Produk</h3>
+        <div class="mb-6"> {{-- UBAH INI: Margin bawah lebih rapat --}}
+            <h3 class="text-xl font-bold mb-3 text-[#131951] tracking-wide">Daftar Produk</h3> {{-- UBAH INI: Font size, weight, color --}}
             
             {{-- Search Bar --}}
-            <div class="mb-4">
-                <input type="text" x-model="searchTerm" placeholder="Cari produk..." class="block w-full border-gray-300 rounded-md shadow-sm">
+            <div class="mb-4 relative">
+                {{-- UBAH INI: Styling Search Input agar konsisten dengan input lain --}}
+                <input type="text" x-model="searchTerm" placeholder="Cari produk..." class="block w-full border-[#D3D3D3] rounded-[14px] shadow-sm focus:border-[#2D5AF7] focus:ring-[#2D5AF7] text-gray-800 p-3 pl-10 tracking-wide">
+                {{-- Tambahkan ikon search --}}
+                <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-sm leading-5 text-gray-400">
+                    <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                </span>
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4">
-                {{-- Menggunakan x-for dari Alpine.js untuk iterasi filteredProduks --}}
                 <template x-for="produk in filteredProduks" :key="produk.id">
-                    <div class="bg-white rounded-lg shadow-md p-4"
+                    {{-- UBAH INI: Styling Kartu Produk (background, rounded, shadow, border) --}}
+                    <div class="bg-white rounded-xl shadow-sm p-4 border border-gray-100 flex flex-col justify-between" 
                          x-data="{ 
-                            // State lokal untuk produk dengan variasi
                             localSelectedVariasiId: null, 
                             localSelectedVariasiHarga: 0, 
                             localSelectedVariasiStok: 0, 
                             localSelectedVariasiName: '',
                             
                             init() {
-                                // Inisialisasi jika produk memiliki variasi
                                 if (produk.variasis.length > 0) {
-                                    // Default: pilih variasi pertama yang tersedia atau yang pertama jika hanya ada 1
                                     const initialVariasi = produk.variasis.find(v => v.stok > 0) || produk.variasis[0];
                                     if (initialVariasi) {
                                         this.localSelectedVariasiId = initialVariasi.id;
@@ -46,17 +55,21 @@
                                         this.localSelectedVariasiStok = parseInt(initialVariasi.stok);
                                         this.localSelectedVariasiName = initialVariasi.nama;
                                     }
+                                } else {
+                                    this.localSelectedVariasiHarga = parseFloat(produk.harga);
+                                    this.localSelectedVariasiStok = parseInt(produk.stok);
                                 }
                             }
-                         }">
-                        <h4 class="font-bold text-md" x-text="produk.nama"></h4>
-                        <p class="text-sm text-gray-500 mb-2" x-text="produk.kategori ? produk.kategori.nama_kategori : 'Tanpa Kategori'"></p>
+                         }"
+                    >
+                        <h4 class="font-semibold text-lg text-[#131951] mb-1 tracking-wide" x-text="produk.nama"></h4> {{-- Font size, weight, color --}}
+                        <p class="text-sm text-gray-500 mb-2 tracking-wide" x-text="produk.kategori ? produk.kategori.nama_kategori : 'Tanpa Kategori'"></p>
 
                         {{-- Variasi Section (if any) --}}
                         <template x-if="produk.variasis.length > 0">
-                            {{-- Tampilan dengan Dropdown Variasi --}}
                             <div class="mb-3">
-                                <label class="block text-xs font-medium text-gray-700 mb-1">Pilih Variasi:</label>
+                                <label class="block text-xs font-medium text-gray-700 mb-1 tracking-wide">Pilih Variasi:</label>
+                                {{-- UBAH INI: Styling Dropdown Variasi --}}
                                 <select x-model="localSelectedVariasiId" 
                                         @change="
                                             const selectedOption = produk.variasis.find(v => v.id == localSelectedVariasiId);
@@ -70,7 +83,7 @@
                                                 localSelectedVariasiName = '';
                                             }
                                         " 
-                                        class="block w-full text-sm border-gray-300 rounded-md shadow-sm">
+                                        class="block w-full text-sm border-[#D3D3D3] rounded-[10px] shadow-sm focus:border-[#2D5AF7] focus:ring-[#2D5AF7] py-2 px-3 tracking-wide">
                                     <option value="">Pilih Variasi</option>
                                     <template x-for="variasi in produk.variasis" :key="variasi.id">
                                         <option :value="variasi.id" 
@@ -80,32 +93,30 @@
                                     </template>
                                 </select>
                                 <template x-if="produk.variasis.length > 0 && produk.variasis.every(v => v.stok === 0)">
-                                    <p class="text-red-500 text-xs mt-1">Semua variasi habis stok.</p>
+                                    <p class="text-red-500 text-xs mt-1 tracking-normal">Semua variasi habis stok.</p>
                                 </template>
-                                <p x-show="localSelectedVariasiStok === 0 && localSelectedVariasiId !== null && localSelectedVariasiId !== ''" class="text-red-500 text-xs mt-1">Variasi ini habis stok.</p>
+                                <p x-show="localSelectedVariasiStok === 0 && localSelectedVariasiId !== null && localSelectedVariasiId !== ''" class="text-red-500 text-xs mt-1 tracking-normal">Variasi ini habis stok.</p>
                             </div>
                         </template>
                         <template x-if="produk.variasis.length === 0">
-                            {{-- Tampilan Tanpa Dropdown Variasi (Default Pilihan) --}}
-                            <div>
-                                <p class="text-sm font-semibold mb-3">Harga: Rp <span x-text="formatRupiah(produk.harga)"></span></p>
-                                <p class="text-xs text-gray-500">Stok: <span x-text="produk.stok"></span></p>
+                            {{-- Tampilan Tanpa Dropdown Variasi --}}
+                            <div class="mb-3">
+                                <p class="text-md font-semibold text-[#131951] mb-1 tracking-wide">Harga: Rp <span x-text="formatRupiah(produk.harga)"></span></p>
+                                <p class="text-xs text-gray-500 tracking-wide">Stok: <span x-text="produk.stok"></span></p>
                                 <template x-if="produk.stok === 0">
-                                    <p class="text-red-500 text-xs mt-1">Stok habis.</p>
+                                    <p class="text-red-500 text-xs mt-1 tracking-normal">Stok habis.</p>
                                 </template>
                             </div>
                         </template>
 
-                        {{-- Add to Cart Button --}}
+                        {{-- Tambah ke Keranjang Button --}}
                         <button 
                             @click="
-                                // Mengambil data langsung dari scope localSelectedVariasi...
-                                // Ini adalah cara yang paling andal
                                 addToCart(
                                     produk.id,
                                     produk.nama,
                                     produk.variasis.length > 0 ? localSelectedVariasiId : null,
-                                    produk.variasis.length > 0 ? localSelectedVariasiName : null, // Nama variasi, bisa null
+                                    produk.variasis.length > 0 ? localSelectedVariasiName : null,
                                     produk.variasis.length > 0 ? localSelectedVariasiHarga : parseFloat(produk.harga),
                                     produk.variasis.length > 0 ? localSelectedVariasiStok : parseInt(produk.stok)
                                 );
@@ -113,79 +124,83 @@
                             :disabled="produk.variasis.length > 0 ? 
                                 (localSelectedVariasiId === null || localSelectedVariasiId === '' || localSelectedVariasiStok === 0) : 
                                 (produk.stok === 0)"
-                            class="w-full bg-blue text-white px-4 py-2 rounded hover:bg-blue mt-2 disabled:opacity-50 disabled:cursor-not-allowed">
+                            class="w-full bg-[#2D5AF7] text-white px-4 py-3 rounded-[10px] hover:bg-[#1f42b3] mt-auto disabled:opacity-50 disabled:cursor-not-allowed font-medium text-base transition-colors duration-200 shadow-sm"> {{-- UBAH INI: Styling Tombol Tambah ke Keranjang --}}
                             + Tambah
                         </button>
                     </div>
                 </template>
                 <template x-if="filteredProduks.length === 0">
-                    <p class="text-gray-500 col-span-full text-center">Tidak ada produk ditemukan dengan kata kunci ini.</p>
+                    <p class="text-gray-500 col-span-full text-center tracking-wide">Tidak ada produk ditemukan dengan kata kunci ini.</p>
                 </template>
             </div>
         </div>
 
         {{-- Cart & Payment Area --}}
-        <div id="cart-section" class="bg-white rounded-lg shadow-md p-4">
-            <h3 class="text-lg font-semibold mb-3 flex justify-between items-center">
-                Keranjang Belanja
-                <span class="bg-blue-600 text-white text-xs font-bold px-2 py-1 rounded-full" x-text="cart.length"></span>
+        <div id="cart-section" class="bg-white rounded-xl shadow-sm p-6 mt-6"> {{-- UBAH INI: shadow-sm, padding, margin-top --}}
+            <h3 class="text-xl font-bold mb-4 flex justify-between items-center text-[#131951] tracking-wide">Keranjang Belanja
+                <span class="bg-[#2D5AF7] text-white text-xs font-bold px-2 py-1 rounded-full">{{-- UBAH INI: Warna Badge --}}
+                    <span x-text="cart.length"></span>
+                </span>
             </h3>
 
             {{-- Cart Items --}}
-            <div x-show="cart.length > 0" class="mb-4 max-h-60 overflow-y-auto border-b pb-2">
+            <div x-show="cart.length > 0" class="mb-4 max-h-60 overflow-y-auto border-b border-gray-200 pb-2"> {{-- UBAH INI: Border-b color --}}
                 <template x-for="(item, index) in cart" :key="index">
-                    <div class="flex justify-between items-center mb-2 text-sm">
+                    {{-- UBAH INI: Styling setiap item keranjang --}}
+                    <div class="flex justify-between items-center mb-3 text-sm tracking-wide py-2 border-b border-dashed border-gray-200 last:border-b-0 last:mb-0">
                         <div>
-                            <span x-text="item.qty"></span>x <span x-text="item.namaProduk + (item.namaVariasi ? ' (' + item.namaVariasi + ')' : '')"></span>
-                            <p class="text-xs text-gray-500">Rp <span x-text="formatRupiah(item.harga)"></span>/item</p>
+                            <span class="font-semibold text-[#131951]" x-text="item.qty"></span>x <span class="text-[#131951]" x-text="item.namaProduk + (item.namaVariasi ? ' (' + item.namaVariasi + ')' : '')"></span>
+                            <p class="text-xs text-gray-500 tracking-normal mt-0.5">Rp <span x-text="formatRupiah(item.harga)"></span>/item</p> {{-- Tambah margin-top --}}
                         </div>
                         <div class="flex items-center space-x-2">
-                            <button @click="decreaseQty(index)" class="bg-gray-200 text-gray-700 px-2 rounded">-</button>
-                            <span x-text="item.qty" class="font-bold"></span>
-                            <button @click="increaseQty(index)" class="bg-gray-200 text-gray-700 px-2 rounded">+</button>
-                            <button @click="removeFromCart(index)" class="text-red-500 text-lg">&times;</button>
+                            {{-- UBAH INI: Styling Quantity Buttons --}}
+                            <button @click="decreaseQty(index)" class="bg-[#D3D3D3] text-[#131951] w-6 h-6 rounded-full flex items-center justify-center font-bold text-base hover:bg-[#7B7B7B] hover:text-white transition-colors duration-150">-</button>
+                            <span x-text="item.qty" class="font-bold text-[#131951] text-base"></span>
+                            <button @click="increaseQty(index)" class="bg-[#D3D3D3] text-[#131951] w-6 h-6 rounded-full flex items-center justify-center font-bold text-base hover:bg-[#7B7B7B] hover:text-white transition-colors duration-150">+</button>
+                            <button @click="removeFromCart(index)" class="text-red-500 text-lg hover:text-red-700 transition-colors duration-150">&times;</button>
                         </div>
                     </div>
                 </template>
             </div>
-            <p x-show="cart.length === 0" class="text-gray-500 text-center">Keranjang kosong.</p>
+            <p x-show="cart.length === 0" class="text-gray-500 text-center tracking-wide py-4">Keranjang kosong.</p> {{-- UBAH INI: Padding --}}
 
             {{-- Total --}}
             <div class="mt-4 text-right">
-                <p class="text-md font-semibold">Total: Rp <span x-text="formatRupiah(calculateTotal())"></span></p>
+                <p class="text-xl font-bold text-[#131951] tracking-wide">Total: Rp <span x-text="formatRupiah(calculateTotal())"></span></p> {{-- UBAH INI: Styling Total --}}
             </div>
 
             {{-- Payment Method --}}
-            <div class="mt-6 border-t pt-4">
-                <h4 class="font-semibold mb-3">Metode Pembayaran</h4>
+            <div class="mt-6 border-t border-gray-200 pt-4">
+                <h4 class="font-bold text-lg mb-3 text-[#131951] tracking-wide">Metode Pembayaran</h4> {{-- UBAH INI: Styling heading --}}
                 <div class="flex space-x-4 mb-4">
-                    <label class="inline-flex items-center">
-                        <input type="radio" x-model="paymentMethod" value="cash" class="form-radio text-blue-600">
-                        <span class="ml-2 text-md">Tunai</span>
+                    {{-- UBAH INI: Styling Radio Buttons --}}
+                    <label class="inline-flex items-center cursor-pointer">
+                        <input type="radio" x-model="paymentMethod" value="cash" class="form-radio h-5 w-5 text-[#2D5AF7] focus:ring-[#2D5AF7] border-gray-300 rounded-full">
+                        <span class="ml-2 text-md text-[#131951] tracking-wide">Tunai</span>
                     </label>
-                    <label class="inline-flex items-center">
-                        <input type="radio" x-model="paymentMethod" value="qris" class="form-radio text-blue-600">
-                        <span class="ml-2 text-md">QRIS</span>
+                    <label class="inline-flex items-center cursor-pointer">
+                        <input type="radio" x-model="paymentMethod" value="qris" class="form-radio h-5 w-5 text-[#2D5AF7] focus:ring-[#2D5AF7] border-gray-300 rounded-full">
+                        <span class="ml-2 text-md text-[#131951] tracking-wide">QRIS</span>
                     </label>
                 </div>
 
                 {{-- Cash Payment Details --}}
                 <div x-show="paymentMethod === 'cash'">
-                    <label for="amount_paid" class="block text-sm font-medium text-gray-700">Uang Diterima (Rp)</label>
-                    <input type="number" x-model.number="amountPaid" @input="calculateChange()" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" placeholder="Masukkan jumlah uang">
-                    <p class="text-md font-semibold mt-2">Kembalian: Rp <span x-text="formatRupiah(change)"></span></p>
+                    <label for="amount_paid" class="block text-sm font-medium text-gray-700 mb-1 tracking-wide">Uang Diterima (Rp)</label>
+                    {{-- UBAH INI: Styling input uang diterima --}}
+                    <input type="number" x-model.number="amountPaid" @input="calculateChange()" class="mt-1 block w-full border-[#D3D3D3] rounded-[10px] shadow-sm focus:border-[#2D5AF7] focus:ring-[#2D5AF7] text-gray-800 p-2 tracking-wide" placeholder="Masukkan jumlah uang">
+                    <p class="text-md font-semibold mt-2 text-[#131951] tracking-wide">Kembalian: Rp <span x-text="formatRupiah(change)"></span></p>
                 </div>
 
-                {{-- QRIS Payment Details (No Change) --}}
+                {{-- QRIS Payment Details --}}
                 <div x-show="paymentMethod === 'qris'">
-                    <p class="text-sm text-gray-600">Total pembayaran QRIS: Rp <span x-text="formatRupiah(calculateTotal())"></span></p>
-                    {{-- Anda bisa menampilkan gambar QRIS di sini jika ada --}}
+                    <p class="text-sm text-gray-600 tracking-wide">Total pembayaran QRIS: Rp <span x-text="formatRupiah(calculateTotal())"></span></p>
                 </div>
 
                 <button 
                     @click="processCheckout()" 
                     :disabled="cart.length === 0 || (paymentMethod === 'cash' && amountPaid < calculateTotal())"
-                    class="w-full bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 mt-4 disabled:opacity-50 disabled:cursor-not-allowed">
+                    class="w-full bg-[#2D5AF7] text-white px-4 py-3 rounded-[10px] hover:bg-[#1f42b3] mt-4 disabled:opacity-50 disabled:cursor-not-allowed font-medium text-xl transition-colors duration-200 shadow-md"> {{-- UBAH INI: Styling Tombol Proses Pembayaran --}}
                     Proses Pembayaran
                 </button>
             </div>
@@ -196,8 +211,8 @@
     <script>
         function kasirApp() {
             return {
-                produks: @json($produks), // Mengambil data produk dari Laravel
-                searchTerm: '', // Properti baru untuk menyimpan input pencarian
+                produks: @json($produks),
+                searchTerm: '',
                 cart: [],
                 paymentMethod: 'cash',
                 amountPaid: 0,
@@ -207,25 +222,21 @@
                     this.calculateChange();
                 },
 
-                // Computed property untuk memfilter produk berdasarkan searchTerm
                 get filteredProduks() {
-                    if (!this.produks) { // Tambahkan pengecekan jika produks belum terisi
+                    if (!this.produks) {
                         return [];
                     }
                     if (!this.searchTerm) {
-                        return this.produks; // Jika search term kosong, tampilkan semua produk
+                        return this.produks;
                     }
                     const lowerCaseSearchTerm = this.searchTerm.toLowerCase();
                     return this.produks.filter(produk => {
-                        // Cari berdasarkan nama produk
                         if (produk.nama.toLowerCase().includes(lowerCaseSearchTerm)) {
                             return true;
                         }
-                        // Cari berdasarkan nama kategori (jika ada)
                         if (produk.kategori && produk.kategori.nama_kategori.toLowerCase().includes(lowerCaseSearchTerm)) {
                             return true;
                         }
-                        // Cari berdasarkan nama variasi (jika ada)
                         if (produk.variasis && produk.variasis.some(variasi => variasi.nama.toLowerCase().includes(lowerCaseSearchTerm))) {
                             return true;
                         }
@@ -234,20 +245,19 @@
                 },
 
                 addToCart(produkId, namaProduk, variasiId, namaVariasi, harga, stok) {
-                    // Debugging: Log the received parameters
                     console.log('addToCart called with:');
-                    console.log('  produkId:', produkId);
-                    console.log('  namaProduk:', namaProduk);
-                    console.log('  variasiId:', variasiId);
-                    console.log('  namaVariasi:', namaVariasi);
-                    console.log('  harga:', harga);
-                    console.log('  stok:', stok);
+                    console.log('   produkId:', produkId);
+                    console.log('   namaProduk:', namaProduk);
+                    console.log('   variasiId:', variasiId);
+                    console.log('   namaVariasi:', namaVariasi);
+                    console.log('   harga:', harga);
+                    console.log('   stok:', stok);
 
                     if (stok <= 0) {
                         alert('Stok produk/variasi ini habis!');
                         return;
                     }
-                    if (harga === 0 || isNaN(harga) || harga === null) { // Added null check for price
+                    if (harga === 0 || isNaN(harga) || harga === null) {
                         alert('Harga produk/variasi tidak valid (0, kosong, atau null).');
                         return;
                     }
@@ -268,9 +278,9 @@
                             variasiId: variasiId,
                             namaProduk: namaProduk,
                             namaVariasi: namaVariasi,
-                            harga: parseFloat(harga), // Ensure harga is a float
+                            harga: parseFloat(harga),
                             qty: 1,
-                            stokTersedia: parseInt(stok) // Ensure stokTersedia is an int
+                            stokTersedia: parseInt(stok)
                         });
                     }
                     this.calculateChange();
@@ -354,13 +364,11 @@
                         const result = await response.json();
 
                         if (response.ok) {
-                            // Redirect ke halaman struk jika checkout berhasil
                             if (result.redirect_url) {
                                 window.location.href = result.redirect_url;
                             } else {
-                                // Fallback jika redirect_url tidak ada (seharusnya tidak terjadi)
                                 alert(result.message || 'Transaksi berhasil!');
-                                this.cart = []; // Clear cart on success if no redirect
+                                this.cart = [];
                                 this.amountPaid = 0;
                                 this.change = 0;
                             }

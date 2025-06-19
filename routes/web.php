@@ -21,7 +21,11 @@ Route::get('/', function () {
     if (Auth::check()) {
         return redirect()->route('dashboard');
     }
-    return redirect()->route('login');
+    return view('landing'); // ganti arahkan ke landing page
+});
+
+Route::get('/landing', function () {
+    return view('landing');
 });
 
 // Semua rute yang butuh login kita kelompokkan di sini

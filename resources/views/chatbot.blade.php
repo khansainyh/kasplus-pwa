@@ -14,8 +14,8 @@
                 <template x-if="message.role !== 'system'">
                     <div :class="{'text-right': message.role === 'user', 'text-left': message.role === 'assistant'}" class="mb-3">
                         <div :class="{
-                                'bg-blue-500 text-white rounded-bl-lg rounded-tl-lg rounded-tr-lg inline-block px-4 py-2 max-w-[80%]': message.role === 'user',
-                                'bg-gray-200 text-gray-800 rounded-br-lg rounded-tr-lg rounded-tl-lg inline-block px-4 py-2 max-w-[80%]': message.role === 'assistant'
+                                'bg-blue text-white rounded-bl-lg rounded-tl-lg rounded-tr-lg inline-block px-4 py-2 max-w-[80%]': message.role === 'user',
+                                'bg-light_gray text-gray-800 rounded-br-lg rounded-tr-lg rounded-tl-lg inline-block px-4 py-2 max-w-[80%]': message.role === 'assistant'
                              }" 
                              x-html="message.content"
                              class="shadow-sm">
@@ -34,7 +34,7 @@
                       class="flex-grow border-gray-300 rounded-md shadow-sm mr-3 p-2 resize-none" 
                       rows="1" style="min-height: 40px;"></textarea>
             <button @click="sendMessage" :disabled="isLoading || !newMessage.trim()" 
-                    class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed">
+                    class="bg-blue text-white px-4 py-2 rounded hover:bg-blue disabled:opacity-50 disabled:cursor-not-allowed">
                 Kirim
             </button>
         </div>
